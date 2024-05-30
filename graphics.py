@@ -21,7 +21,7 @@ class Window():
     def close(self):
         self.__visible = False
     
-    def draw_line(self, line, color):
+    def draw_line(self, line, color="black"):
         line.draw(self.__canvas, color)
 
 
@@ -66,3 +66,24 @@ class Cell():
             self._win.draw_line(Line(Point(self._x2, self._y1), Point(self._x2, self._y2)), "black")
         if self.has_bottom_wall:
             self._win.draw_line(Line(Point(self._x1, self._y2), Point(self._x2, self._y2)), "black")
+    
+    def draw_move(self, to_cell, undo=False):
+        color = "red"
+        if undo:
+            color = "gray"
+        
+        half_length = abs(self._x2 - self._x1) // 2
+        x_center = half_length + self._x1
+        y_center = half_length + self._y1
+
+        half_length2 = abs(to_cell._x2 - to_cell._x1) // 2
+        x_center2 = half_length2 + to_cell._x1
+        y_center2 = half_length2 + to_cell._y1
+
+        self._win.draw_line(
+            Line(
+                Point(x_center, y_center),
+                Point(x_center2, y_center2)
+            ),
+            color
+        )
