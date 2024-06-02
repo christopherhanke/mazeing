@@ -3,7 +3,7 @@ from tkinter import Tk, BOTH, Canvas
 class Window():
     def __init__(self, width, heigth):
         self.__root = Tk()
-        self.__canvas = Canvas(height=heigth, width=width, bg="white")
+        self.__canvas = Canvas(self.__root, height=heigth, width=width, bg="white")
         self.__canvas.pack(fill=BOTH, expand=1)
         self.__visible = False
         self.__root.title("Mazeing")
@@ -36,7 +36,7 @@ class Line():
         self.point1 = point1
         self.point2 = point2
     
-    def draw(self, canvas, color):
+    def draw(self, canvas, color="black"):
         canvas.create_line(
             self.point1.x, self.point1.y,
             self.point2.x, self.point2.y,

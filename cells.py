@@ -1,32 +1,50 @@
 from graphics import Line, Point
 
 class Cell():
-    def __init__(self, x1, y1, x2, y2, window=None):
+    def __init__(self, window=None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
+        self._x1 = None
+        self._x2 = None
+        self._y1 = None
+        self._y2 = None
+        self._win = window
+        self._visited = False
+    
+    def draw(self, x1, y1, x2, y2):
+        if not self._win:
+            return
         self._x1 = x1
         self._x2 = x2
         self._y1 = y1
         self._y2 = y2
-        self._win = window
-    
-    def draw(self):
-        if not self._win:
-            return
+
+        left_wall = Line(Point(x1, y1), Point(x1, y2))
+        right_wall = Line(Point(x2, y1), Point(x2, y2))
+        top_wall = Line(Point(x1, y1), Point(x2, y1))
+        bottom_wall = Line(Point(x1, y2), Point(x2, y2))
+        
         if self.has_left_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y1), Point(self._x1, self._y2)), "black")
+            self._win.draw_line(left_wall)
+        else:
+            self._win.draw_line(left_wall, "white")
+        
         if self.has_top_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y1), Point(self._x2, self._y1)), "black")
+            self._win.draw_line(top_wall)
         else:
-            self._win.draw_line(Line(Point(self._x1, self._y1), Point(self._x2, self._y1)), "white")
+            self._win.draw_line(top_wall, "white")
+        
         if self.has_right_wall:
-            self._win.draw_line(Line(Point(self._x2, self._y1), Point(self._x2, self._y2)), "black")
-        if self.has_bottom_wall:
-            self._win.draw_line(Line(Point(self._x1, self._y2), Point(self._x2, self._y2)), "black")
+            self._win.draw_line(right_wall)
         else:
-            self._win.draw_line(Line(Point(self._x1, self._y2), Point(self._x2, self._y2)), "white")
+            self._win.draw_line(right_wall, "white")
+        
+        if self.has_bottom_wall:
+            self._win.draw_line(bottom_wall)
+        else:
+            self._win.draw_line(bottom_wall, "white")
     
     def draw_move(self, to_cell, undo=False):
         if not self._win:
